@@ -17,8 +17,7 @@ new Vue({
         return
       }
 
-      this.playerHealth -= this.calculateDamage(5, 12)
-      this.checkWin()
+      this.monsterAttack()
     },
     specialAttack() {
       this.monsterHealth -= this.calculateDamage(10, 20)
@@ -29,10 +28,15 @@ new Vue({
       this.monsterAttack()
     },
     heal() {
-
+      if (this.playerHealth <= 90) {
+        this.playerHealth += 10
+      } else {
+        this.playerHealth = 100
+      }
+      this.monsterAttack()
     },
     giveUp() {
-
+      this.gameIsRunning = false
     },
     monsterAttack() {
       this.playerHealth -= this.calculateDamage(5, 12)
