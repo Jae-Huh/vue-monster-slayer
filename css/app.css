@@ -55,6 +55,10 @@ button {
     font-weight: bold;
 }
 
+button:focus {
+    outline: 0;
+}
+
 #start-game {
     background-color: #073B4C;
 }
