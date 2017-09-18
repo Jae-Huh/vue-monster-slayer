@@ -3,28 +3,38 @@ new Vue({
   data: {
     playerHealth: 100,
     monsterHealth: 100,
-    gameIsRunning: false
+    gameIsRunning: false,
+    turns: []
   },
   methods: {
     startGame() {
       this.gameIsRunning = true
       this.playerHealth = 100
       this.monsterHealth = 100
+      this.turn = []
     },
     attack() {
-      this.monsterHealth -= this.calculateDamage(3, 10)
+      const damage = this.calculateDamage(3, 10)
+      this.monsterHealth -= damage
+      this.turns.unshift({
+        isPlayer: true,
+        text: `Player gave Monster the damage of ${damage}`
+      })
       if (this.checkWin()) {
         return
       }
-
       this.monsterAttack()
     },
     specialAttack() {
-      this.monsterHealth -= this.calculateDamage(10, 20)
+      const damage = this.calculateDamage(10, 20)
+      this.monsterHealth -= damage
+      this.turns.unshift({
+        isPlayer: true,
+        text: `Player gave Monster the special damage of ${damage}`
+      })
       if (this.checkWin()) {
         return
       }
-
       this.monsterAttack()
     },
     heal() {
@@ -33,13 +43,23 @@ new Vue({
       } else {
         this.playerHealth = 100
       }
+      this.turns.unshift({
+        isPlayer: true,
+        text: 'Player healed and gained 10 health'
+      })
       this.monsterAttack()
     },
     giveUp() {
       this.gameIsRunning = false
+      this.turns = []
     },
     monsterAttack() {
-      this.playerHealth -= this.calculateDamage(5, 12)
+      const damage = this.calculateDamage(5, 12)
+      this.playerHealth -= damage
+      this.turns.unshift({
+        isPlayer: false,
+        text: `Monster gave Player the damage of ${damage}`
+      })
       this.checkWin()
     },
     calculateDamage(min, max) {
